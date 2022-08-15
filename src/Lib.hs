@@ -3,7 +3,8 @@ module Lib
       var,
       std,
       showStdDev,
-      showAve
+      showAve,
+      showVar
     ) where
 
 import Data.Ratio

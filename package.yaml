@@ -37,6 +37,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - stats
+    - optparse-applicative
 
 tests:
   stats-test:
