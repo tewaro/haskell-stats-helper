@@ -17,6 +17,8 @@ data Opts = Opts
   , precise :: Int
   }
 
+(.>) = flip (.)
+
 handleAsk :: IOMode -> ReadM (IO Handle)
 handleAsk m =  (`openFile` m) <$> readerAsk
 
@@ -40,23 +42,22 @@ programOptions =  Opts <$>
                                       <> showDefault)
 
 versionOption :: Parser (a -> a)
-versionOption = infoOption "0.1.0.0"  (long "version"
+versionOption = infoOption "v0.1.0.0"  (long "version"
                                     <> help "Show version")
 
 optsParser :: ParserInfo Opts
 optsParser = info (helper <*> versionOption <*> programOptions)
-                  (fullDesc <> progDesc "Quick stats Widget" <> header "stats - a widget for computing average, stddev, and variance")
+                  (fullDesc <> progDesc "Quick stats Widget"
+                            <> header "stats - a widget for computing average, stddev, and variance")
 
 printStats :: Handle -> Int -> [Int] -> IO ()
-printStats h n = do hPutStrLn h . showAve     n
-                    hPutStrLn h . showStdDev  n
-                    hPutStrLn h . showVar     n
+printStats h n = do
+                    showAve     n .> hPutStrLn h
+                    showStdDev  n .> hPutStrLn h
+                    showVar     n .> hPutStrLn h
 
-work :: Opts -> IO ()
-work opt = do
-              i <-    inpFile opt
-              o <-    outFile opt
-              let p = precise opt
-              hGetContents i >>= printStats o p . fmap (read :: String -> Int) . lines
+work :: Int -> Handle -> Handle -> IO ()
+work p i o = hGetContents i >>= lines .> fmap (read :: String -> Int) .> printStats o p
+
 main :: IO ()
-main = execParser optsParser >>= work
+main = execParser optsParser >>= \opt -> join $ work (precise opt) <$> inpFile opt <*> outFile opt

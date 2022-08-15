@@ -10,6 +10,7 @@ module Lib
 import Data.Ratio
 import Data.Number.CReal
 
+(.>) = flip (.)
 
 ave :: [Int] -> Rational
 ave [] = 0
@@ -24,16 +25,16 @@ var :: [Int] -> Rational
 var x = varHelper (ave x) 0 (length x) x
 
 std :: [Int] -> CReal
-std = sqrt . fromRational . var
+std = var .> fromRational .> sqrt
 
 showRat     :: Int -> Rational -> String
-showRat digits    = showCReal digits . fromRational
+showRat digits    = fromRational .> showCReal digits
 
 showStdDev  :: Int -> [Int] -> String
-showStdDev digits = showCReal digits . std
+showStdDev digits = std .> showCReal digits
 
 showVar     :: Int -> [Int] -> String
-showVar digits    = showRat digits . var
+showVar digits    = var .> showRat digits
 
 showAve     :: Int -> [Int] -> String
-showAve digits    = showRat digits . ave
+showAve digits    = ave .> showRat digits
