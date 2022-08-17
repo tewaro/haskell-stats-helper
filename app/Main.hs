@@ -7,6 +7,7 @@ import System.IO
 import Options.Applicative
 import Options.Applicative.Types
 import Control.Monad
+import Data.Function
 
 
 import Lib
@@ -43,7 +44,7 @@ programOptions =  Opts <$>
 
 versionOption :: Parser (a -> a)
 versionOption = infoOption "v0.1.0.0"  (long "version"
-                                    <> help "Show version")
+                                     <> help "Show version")
 
 optsParser :: ParserInfo Opts
 optsParser = info (helper <*> versionOption <*> programOptions)
@@ -60,4 +61,4 @@ work :: Int -> Handle -> Handle -> IO ()
 work p i o = hGetContents i >>= lines .> fmap (read :: String -> Int) .> printStats o p
 
 main :: IO ()
-main = execParser optsParser >>= \opt -> join $ work (precise opt) <$> inpFile opt <*> outFile opt
+main = execParser optsParser >>= \opt -> work (precise opt) <$> inpFile opt <*> outFile opt & join
