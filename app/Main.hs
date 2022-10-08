@@ -53,9 +53,9 @@ optsParser = info (helper <*> versionOption <*> programOptions)
 
 printStats :: Handle -> Int -> [Int] -> IO ()
 printStats h n xs = do
-                      hPutStrLn h $ showAve     n xs
-                      hPutStrLn h $ showStdDev  n xs
-                      hPutStrLn h $ showVar     n xs
+                      showAve     n xs & hPutStrLn h
+                      showStdDev  n xs & hPutStrLn h
+                      showVar     n xs & hPutStrLn h
 
 work :: Int -> Handle -> Handle -> IO ()
 work p i o = hGetContents i >>= lines .> fmap (read :: String -> Int) .> printStats o p
