@@ -52,10 +52,10 @@ optsParser = info (helper <*> versionOption <*> programOptions)
                             <> header "stats - a widget for computing average, stddev, and variance")
 
 printStats :: Handle -> Int -> [Int] -> IO ()
-printStats h n = do
-                    showAve     n .> hPutStrLn h
-                    showStdDev  n .> hPutStrLn h
-                    showVar     n .> hPutStrLn h
+printStats h n xs = do
+                      hPutStrLn h $ showAve     n xs
+                      hPutStrLn h $ showStdDev  n xs
+                      hPutStrLn h $ showVar     n xs
 
 work :: Int -> Handle -> Handle -> IO ()
 work p i o = hGetContents i >>= lines .> fmap (read :: String -> Int) .> printStats o p
