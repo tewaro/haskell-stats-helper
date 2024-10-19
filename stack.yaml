@@ -10,15 +10,13 @@
 #
 # resolver: lts-3.5
 # resolver: nightly-2015-09-21
-# resolver: ghc-7.10.2
+resolver: ghc-9.10.1
 #
 # The location of a snapshot can be provided as a file or url. Stack assumes
 # a snapshot provided as a file might change, whereas a url resource does not.
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver:
-  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/18.yaml
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -30,7 +28,6 @@ resolver:
 #   - auto-update
 #   - wai
 packages:
-- .
 # Dependency packages to be pulled from upstream that are not in the resolver.
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
@@ -40,7 +37,15 @@ packages:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-# extra-deps: []
+extra-deps:
+- numbers-3000.2.0.2@sha256:fedb235e16f19ffb5dc40711738c29e231fae4ad608473880a1f59ba5f60829e,1757
+- optparse-applicative-0.18.1.0@sha256:b4cf8d9018e5e67cb1f14edb5130b6d05ad8bc1b5f6bd4efaa6ec0b7f28f559d,5132
+- prettyprinter-1.7.1@sha256:9c43c9d8c3cd9f445596e5a2379574bba87f935a4d1fa41b5407ee3cf4edc743,6987
+- prettyprinter-ansi-terminal-1.1.3@sha256:b00f727b964cf13adff7acf575a71fa7e405f5240aff50b07f10df76ab89f8d3,2574
+- transformers-compat-0.7.2@sha256:044fb9955f63ee138fcebedfdcbe54afe741f2d5892a2d0bdf3a8052bd342643,5601
+- ansi-terminal-1.1.1@sha256:5b3e9228323416a1962d5948b18f9eff8569ad94a368e15f0e6104128783f572,2894
+- ansi-terminal-types-1.1@sha256:135f6a381afa19d53d0a3fe40b6dd47e6666c538b09e4300fbb1438759df3248,1462
+- colour-2.3.6@sha256:ebdcbf15023958838a527e381ab3c3b1e99ed12d1b25efeb7feaa4ad8c37664a,2378
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
@@ -49,7 +54,7 @@ packages:
 # extra-package-dbs: []
 
 # Control whether we use the GHC we find on the path
-# system-ghc: true
+system-ghc: true
 #
 # Require a specific version of stack, using version ranges
 # require-stack-version: -any # Default
