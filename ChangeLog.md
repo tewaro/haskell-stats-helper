@@ -7,5 +7,8 @@ and this project adheres to the
 [Haskell Package Versioning Policy](https://pvp.haskell.org/).
 
 ## Unreleased
+## 0.1.0.0 - 2025-02-05
+Update to include min, quartile one, median, quartile 3, and max
 
-## 0.1.0.0 - YYYY-MM-DD
+## 0.1.0.0 - 2022-08-17
+Initial setup

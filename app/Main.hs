@@ -43,19 +43,24 @@ programOptions =  Opts <$>
                                       <> showDefault)
 
 versionOption :: Parser (a -> a)
-versionOption = infoOption "v0.1.0.0"  (long "version"
+versionOption = infoOption "v0.1.0.1"  (long "version"
                                      <> help "Show version")
 
 optsParser :: ParserInfo Opts
 optsParser = info (helper <*> versionOption <*> programOptions)
                   (fullDesc <> progDesc "Quick stats Widget"
-                            <> header "stats - a widget for computing average, stddev, and variance")
+                            <> header "stats - a widget for computing average, stddev, and variance, min, quartile 1, median, quartile 3, max")
 
 printStats :: Handle -> Int -> [Int] -> IO ()
 printStats h n xs = do
                       showAve     n xs & hPutStrLn h
                       showStdDev  n xs & hPutStrLn h
                       showVar     n xs & hPutStrLn h
+                      showMin     n xs & hPutStrLn h
+                      showQ1      n xs & hPutStrLn h
+                      showMed     n xs & hPutStrLn h
+                      showQ3      n xs & hPutStrLn h
+                      showMax     n xs & hPutStrLn h
 
 work :: Int -> Handle -> Handle -> IO ()
 work p i o = hGetContents i >>= lines .> fmap (read :: String -> Int) .> printStats o p
